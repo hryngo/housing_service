@@ -1,5 +1,14 @@
 import { Expose, Transform } from 'class-transformer';
 
+export class ColumnNumericTransformer {
+  to(data: number): number {
+    return data;
+  }
+  from(data: string): number {
+    return parseFloat(data);
+  }
+}
+
 export class PropertyDto {
   @Transform(({ obj }) => obj.guid)
   @Expose()

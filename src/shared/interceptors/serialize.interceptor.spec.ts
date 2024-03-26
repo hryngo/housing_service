@@ -1,5 +1,5 @@
-import { SerializeInterceptor } from './serialize.interceptor';
 import { Dto } from '../interfaces/dto.interface';
+import { SerializeInterceptor } from './serialize.interceptor';
 
 class ClassDto implements Dto {}
 

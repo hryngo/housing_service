@@ -1,4 +1,5 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
+
 import { RegisteredPropertyEvent } from '../events/registered-property.event';
 
 @EventsHandler(RegisteredPropertyEvent)

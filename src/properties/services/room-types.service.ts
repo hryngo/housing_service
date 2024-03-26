@@ -1,12 +1,12 @@
-import { Inject, Injectable } from '@nestjs/common';
-import { CreateRoomTypeListDto } from '../dtos/create-room-type-list.dto';
-import { UpdateRoomTypeDto } from '../dtos/update-room-type.dto';
-import { CreateRoomTypeCommand } from '../commands/create-room-type.command';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
+import { Repository } from 'typeorm';
+
+import { CreateRoomTypeCommand } from '../commands/create-room-type.command';
+import { ROOM_TYPE_REPOSITORY } from '../constants';
+import { CreateRoomTypeListDto } from '../dtos/create-room-type-list.dto';
 import { Property } from '../entities/property.entity';
 import { RoomType } from '../entities/room-type.entity';
-import { ROOM_TYPE_REPOSITORY } from '../constants';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class RoomTypesService {
@@ -22,18 +22,27 @@ export class RoomTypesService {
   }
 
   findByProperty(property: Property) {
-    return this.repo.findBy({ property: {id: property.id} });
+    return this.repo.findBy({ property: { id: property.id } });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} roomType`;
+  async findOneByGuid(guid: string) {
+    return this.repo.findOneBy({ guid });
   }
 
-  update(id: number, updateRoomTypeDto: UpdateRoomTypeDto) {
-    return `This action updates a #${id} roomType`;
+  async update(guid: string, attrs: Partial<RoomType>) {
+    const instance = await this.findOneByGuid(guid);
+    if (!instance) {
+      throw new NotFoundException('Room type not found.');
+    }
+    Object.assign(instance, attrs);
+    return this.repo.save(instance);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} roomType`;
+  async remove(guid: string) {
+    const instance = await this.findOneByGuid(guid);
+    if (!instance) {
+      throw new NotFoundException('Room type not found.');
+    }
+    return this.repo.softRemove(instance);
   }
 }

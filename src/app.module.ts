@@ -1,12 +1,13 @@
 import { Module, ValidationPipe } from '@nestjs/common';
-import { APP_PIPE } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
+import { APP_PIPE } from '@nestjs/core';
+
 import { AuthModule } from './auth/auth.module';
-import { PropertiesModule } from './properties/properties.module';
-import { BookingsModule } from './bookings/bookings.module';
-import { ReservationsModule } from './reservations/reservations.module';
 import { BlocksModule } from './blocks/blocks.module';
+import { BookingsModule } from './bookings/bookings.module';
 import { DatabaseModule } from './database/database.module';
+import { PropertiesModule } from './properties/properties.module';
+import { ReservationsModule } from './reservations/reservations.module';
 import { SharedModule } from './shared/shared.module';
 
 @Module({

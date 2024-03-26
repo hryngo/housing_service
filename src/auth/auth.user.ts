@@ -1,4 +1,4 @@
-import { User as IUser, Token } from './interfaces/user.interface';
+import { Token, User as IUser } from './interfaces/user.interface';
 
 export class AuthUser implements IUser {
   token: Token;
@@ -9,7 +9,15 @@ export class AuthUser implements IUser {
     this.token = token;
   }
 
+  get roles(): string[] {
+    return this.getRoles();
+  }
+
   getRoles(): string[] {
     return this.token.roles || [];
+  }
+
+  hasRoles(...requiredRoles: string[]): boolean {
+    return requiredRoles.some((role) => this.roles.includes(role));
   }
 }

@@ -1,8 +1,10 @@
-import { Entity, Column, ManyToOne } from 'typeorm';
+import { Column, Entity, Index, ManyToOne } from 'typeorm';
+
 import { BaseEntity } from '../../database/entities/base.entity';
 import { Property } from './property.entity';
 
 @Entity({ name: 'room_types' })
+@Index(['code', 'property'], { unique: true })
 export class RoomType extends BaseEntity {
   @Column({ type: 'varchar', length: 255 })
   name: string;

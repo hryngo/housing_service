@@ -1,10 +1,6 @@
-import { Expose } from 'class-transformer';
-import { IsEmail, IsString, IsNumber, IsOptional } from 'class-validator';
+import { IsEmail, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class RegisterPropertyDto {
-  @IsString()
-  id: string
-
   @IsString()
   name: string;
 

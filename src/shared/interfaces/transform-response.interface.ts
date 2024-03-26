@@ -1,3 +1,3 @@
 export interface TransformResponse<T> {
-  data: T | { results: T[] }
+  data: T | { results: T[] };
 }

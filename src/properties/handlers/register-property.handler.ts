@@ -1,8 +1,9 @@
-import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
-import { RegisterPropertyCommand } from '../commands/register-property.command';
 import { Inject } from '@nestjs/common';
-import { PROPERTY_REPOSITORY } from '../constants';
+import { CommandHandler, EventPublisher, ICommandHandler } from '@nestjs/cqrs';
 import { Repository } from 'typeorm';
+
+import { RegisterPropertyCommand } from '../commands/register-property.command';
+import { PROPERTY_REPOSITORY } from '../constants';
 import { Property } from '../entities/property.entity';
 import { RegisteredPropertyEvent } from '../events/registered-property.event';
 

@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { PropertiesService } from './services/properties.service';
-import { propertiesProviders } from './properties.providers';
+import { CqrsModule } from '@nestjs/cqrs';
+
 import { DatabaseModule } from '../database/database.module';
 import { PropertiesController } from './controllers/properties.controller';
-import { CqrsModule } from '@nestjs/cqrs';
 import { RoomTypesController } from './controllers/room-types.controller';
+import { propertiesProviders } from './properties.providers';
+import { PropertiesService } from './services/properties.service';
 import { RoomTypesService } from './services/room-types.service';
 
 @Module({

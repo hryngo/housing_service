@@ -1,6 +1,7 @@
 import { DataSource } from 'typeorm';
-import { DATA_SOURCE } from './constants';
+
 import dsOptionsFactory from '../config/orm.config';
+import { DATA_SOURCE } from './constants';
 
 export const databaseProviders = [
   {

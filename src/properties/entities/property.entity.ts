@@ -1,4 +1,6 @@
-import { Entity, Column, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
+
+import { Numeric } from '../../database/columns/numeric.column';
 import { BaseEntity } from '../../database/entities/base.entity';
 import { RoomType } from './room-type.entity';
 
@@ -28,7 +30,7 @@ export class Property extends BaseEntity {
   @Column({ type: 'varchar', length: 255, nullable: true })
   addressLine: string;
 
-  @Column({ type: 'numeric', precision: 2, scale: 1, nullable: true })
+  @Numeric({ precision: 2, scale: 1, nullable: true })
   rating: number;
 
   @Column({ type: 'varchar', length: 150, nullable: true })

@@ -1,25 +1,31 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
+  Get,
   NotFoundException,
+  Param,
+  Patch,
+  Post,
 } from '@nestjs/common';
-import { RoomTypesService } from '../services/room-types.service';
+
+import { KnownRoles } from '../../auth/constants';
+import { HasRoles } from '../../auth/decorators/has-roles.decorator';
+import { Serialize } from '../../shared/interceptors/serialize.interceptor';
 import { CreateRoomTypeListDto } from '../dtos/create-room-type-list.dto';
+import { RoomTypeDto } from '../dtos/room-type.dto';
 import { UpdateRoomTypeDto } from '../dtos/update-room-type.dto';
 import { PropertiesService } from '../services/properties.service';
-import { Serialize } from 'src/shared/interceptors/serialize.interceptor';
-import { RoomTypeDto } from '../dtos/room-type.dto';
-import { Public } from 'src/auth/decorators/public.decorator';
+import { RoomTypesService } from '../services/room-types.service';
 
 @Controller('properties/:propertyId/room-types')
 export class RoomTypesController {
-  constructor(private roomTypesService: RoomTypesService, private propertyService: PropertiesService) {}
+  constructor(
+    private roomTypesService: RoomTypesService,
+    private propertyService: PropertiesService,
+  ) {}
 
+  @HasRoles(KnownRoles.PROPERTY_MANAGE)
   @Post()
   @Serialize(RoomTypeDto)
   async create(
@@ -33,6 +39,7 @@ export class RoomTypesController {
     return this.roomTypesService.create(prop, body);
   }
 
+  @HasRoles(KnownRoles.PROPERTY_VIEW)
   @Get()
   @Serialize(RoomTypeDto)
   async findAll(@Param('propertyId') propertyGuid: string) {
@@ -43,21 +50,44 @@ export class RoomTypesController {
     return this.roomTypesService.findByProperty(prop);
   }
 
+  @HasRoles(KnownRoles.PROPERTY_VIEW)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.roomTypesService.findOne(+id);
+  async findOne(
+    @Param('propertyId') propertyGuid: string,
+    @Param('id') guid: string,
+  ) {
+    const prop = await this.propertyService.findOneByGuid(propertyGuid);
+    if (!prop) {
+      throw new NotFoundException('Property not found.');
+    }
+    return this.roomTypesService.findOneByGuid(guid);
   }
 
+  @HasRoles(KnownRoles.PROPERTY_MANAGE)
   @Patch(':id')
-  update(
-    @Param('id') id: string,
+  @Serialize(RoomTypeDto)
+  async update(
+    @Param('propertyId') propertyGuid: string,
+    @Param('id') guid: string,
     @Body() updateRoomTypeDto: UpdateRoomTypeDto,
   ) {
-    return this.roomTypesService.update(+id, updateRoomTypeDto);
+    const prop = await this.propertyService.findOneByGuid(propertyGuid);
+    if (!prop) {
+      throw new NotFoundException('Property not found.');
+    }
+    return this.roomTypesService.update(guid, updateRoomTypeDto);
   }
 
+  @HasRoles(KnownRoles.PROPERTY_MANAGE)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.roomTypesService.remove(+id);
+  async remove(
+    @Param('propertyId') propertyGuid: string,
+    @Param('id') guid: string,
+  ) {
+    const prop = await this.propertyService.findOneByGuid(propertyGuid);
+    if (!prop) {
+      throw new NotFoundException('Property not found.');
+    }
+    return this.roomTypesService.remove(guid);
   }
 }

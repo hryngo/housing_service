@@ -1,9 +1,10 @@
 import { AggregateRoot } from '@nestjs/cqrs';
 import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-  CreateDateColumn,
-  Column,
 } from 'typeorm';
 
 export abstract class BaseEntity extends AggregateRoot {
@@ -18,4 +19,7 @@ export abstract class BaseEntity extends AggregateRoot {
 
   @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
+
+  @DeleteDateColumn({ type: 'timestamptz' })
+  deletedAt: Date;
 }

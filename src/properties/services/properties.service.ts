@@ -1,11 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CommandBus } from '@nestjs/cqrs';
-import { RegisterPropertyDto } from '../dtos/register-property.dto';
-import { RegisterPropertyCommand } from '../commands/register-property.command';
 import { plainToInstance } from 'class-transformer';
-import { Property } from '../entities/property.entity';
 import { Repository } from 'typeorm';
+
+import { RegisterPropertyCommand } from '../commands/register-property.command';
 import { PROPERTY_REPOSITORY } from '../constants';
+import { RegisterPropertyDto } from '../dtos/register-property.dto';
+import { Property } from '../entities/property.entity';
 
 @Injectable()
 export class PropertiesService {
@@ -27,6 +28,6 @@ export class PropertiesService {
   }
 
   async findOneByGuid(guid: string): Promise<Property> {
-    return this.repo.findOneByOrFail({ guid });
+    return this.repo.findOneBy({ guid });
   }
 }

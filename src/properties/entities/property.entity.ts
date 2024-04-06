@@ -1,41 +1,55 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 
+import { Block } from '../../blocks/entities/block.entity';
+import { Event } from '../../blocks/entities/event.entity';
 import { Numeric } from '../../database/columns/numeric.column';
 import { BaseEntity } from '../../database/entities/base.entity';
 import { RoomType } from './room-type.entity';
 
-@Entity({ name: 'properties' })
+@Entity('properties')
 export class Property extends BaseEntity {
-  @Column({ type: 'varchar', length: 255 })
+  @Column('varchar', { length: 255 })
   name: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
+  @Column('varchar', { length: 255, nullable: true })
   description: string;
 
-  @Column({ type: 'varchar', length: 55, nullable: true })
+  @Column('varchar', { length: 55, nullable: true })
   group: string;
 
-  @Column({ type: 'varchar', length: 55, nullable: true })
+  @Column('varchar', { length: 55, nullable: true })
   brand: string;
 
-  @Column({ type: 'int', nullable: true })
+  @Column('int', { nullable: true })
   roomCount: number;
 
-  @Column({ type: 'varchar', length: 15, nullable: true })
+  @Column('varchar', { length: 5, nullable: true })
+  currency: string;
+
+  @Column('varchar', { length: 255, nullable: true })
+  userId: string;
+
+  @Column('varchar', { length: 15, nullable: true })
   phoneNumber: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
+  @Column('varchar', { length: 255, nullable: true })
   emailAddress: string;
 
-  @Column({ type: 'varchar', length: 255, nullable: true })
+  @Column('varchar', { length: 255, nullable: true })
   addressLine: string;
 
   @Numeric({ precision: 2, scale: 1, nullable: true })
   rating: number;
 
-  @Column({ type: 'varchar', length: 150, nullable: true })
+  @Column('varchar', { length: 150, nullable: true })
   hotelier: string;
 
   @OneToMany(() => RoomType, (roomType) => roomType.property)
   roomTypes: RoomType[];
+
+  @OneToMany(() => Block, (block) => block.property)
+  blocks: Block[];
+
+  @OneToMany(() => Event, (event) => event.property)
+  events: Event[];
 }

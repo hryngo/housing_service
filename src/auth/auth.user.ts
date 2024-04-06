@@ -7,17 +7,18 @@ export class AuthUser implements IUser {
 
   constructor(token: Token) {
     this.token = token;
+    this.id = this.token.sub as string;
   }
 
-  get roles(): string[] {
-    return this.getRoles();
+  get permissions(): string[] {
+    return this.getPermissions();
   }
 
-  getRoles(): string[] {
-    return this.token.roles || [];
+  getPermissions(): any {
+    return this.token.permissions || [];
   }
 
-  hasRoles(...requiredRoles: string[]): boolean {
-    return requiredRoles.some((role) => this.roles.includes(role));
+  hasPerms(...requiredPerms: string[]): boolean {
+    return requiredPerms.some((perm) => this.permissions.includes(perm));
   }
 }

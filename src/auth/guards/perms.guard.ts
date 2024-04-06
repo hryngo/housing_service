@@ -2,23 +2,23 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 
-import { Roles } from '../decorators/roles.decorator';
+import { Perms } from '../decorators/perms.decorator';
 
 @Injectable()
-export class RolesGuard implements CanActivate {
+export class PermsGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const requiredRoles = this.reflector.get(Roles, context.getHandler());
-    if (!requiredRoles?.length) {
+    const requiredPerms = this.reflector.get(Perms, context.getHandler());
+    if (!requiredPerms?.length) {
       return true;
     }
     const { user } = context.switchToHttp().getRequest();
     if (!user) {
       return false;
     }
-    return user.hasRoles(requiredRoles);
+    return user.hasPerms(...requiredPerms);
   }
 }

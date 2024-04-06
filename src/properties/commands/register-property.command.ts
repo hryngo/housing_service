@@ -8,13 +8,25 @@ export class RegisterPropertyCommand {
   readonly description: string;
 
   @Expose()
+  readonly group: string;
+
+  @Expose()
   readonly brand: string;
+
+  @Expose()
+  readonly roomCount: number;
+
+  @Expose()
+  readonly currency: string;
 
   @Expose()
   readonly phoneNumber: string;
 
   @Expose()
   readonly emailAddress: string;
+
+  @Expose()
+  readonly addressLine: string;
 
   @Expose()
   readonly rating: number;

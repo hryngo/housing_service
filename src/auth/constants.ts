@@ -2,7 +2,7 @@ export class JwtConstants {
   static readonly ROLES_IDENTIFIER: string = 'roles';
 }
 
-export class KnownRoles {
+export class KnownPermissions {
   static readonly PROPERTY_VIEW = 'property.view';
   static readonly PROPERTY_MANAGE = 'property.manage';
   static readonly BLOCK_VIEW = 'block.view';

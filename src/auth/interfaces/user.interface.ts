@@ -8,5 +8,5 @@ export interface User {
   token: Token;
   id: string;
   username: string;
-  getRoles(): string[];
+  getPermissions(): string[];
 }
